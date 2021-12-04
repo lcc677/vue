@@ -109,7 +109,7 @@ function initProps (vm: Component, propsOptions: Object) {
   }
   toggleObserving(true)
 }
-
+// 数据 添加观察者。
 function initData (vm: Component) {
   let data = vm.$options.data
   data = vm._data = typeof data === 'function'
@@ -123,6 +123,7 @@ function initData (vm: Component) {
       vm
     )
   }
+  // 判断data中定义的数据是否在method和props中存在相同的key
   // proxy data on instance
   const keys = Object.keys(data)
   const props = vm.$options.props
@@ -149,6 +150,8 @@ function initData (vm: Component) {
     }
   }
   // observe data
+
+  // 将我们的数据data 添加观察者
   observe(data, true /* asRootData */)
 }
 

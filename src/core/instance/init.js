@@ -49,6 +49,8 @@ export function initMixin (Vue: Class<Component>) {
     }
     // expose real self
     vm._self = vm
+    // 跟vue生命周期没有什么关系，就是在我们传入的options中添加一些vue自己的属性
+    
     initLifecycle(vm)
     initEvents(vm)
     initRender(vm)

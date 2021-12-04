@@ -44,6 +44,7 @@ export class Observer {
     this.dep = new Dep()
     this.vmCount = 0
     def(value, '__ob__', this)
+    // 数组的响应
     if (Array.isArray(value)) {
       if (hasProto) {
         protoAugment(value, arrayMethods)
@@ -52,6 +53,7 @@ export class Observer {
       }
       this.observeArray(value)
     } else {
+      // 对象的响应
       this.walk(value)
     }
   }
@@ -112,6 +114,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
     return
   }
   let ob: Observer | void
+  // 如果传进来的数据，已经是一个有一个Observer对象，即是已经被观察了，那就返回她原来的
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
   } else if (
@@ -121,6 +124,8 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
     Object.isExtensible(value) &&
     !value._isVue
   ) {
+    // 如果没有，那我们创建一个观察者并返回这个创建的观察者。
+    // 创建一个Observer的类，参数是传进来的data
     ob = new Observer(value)
   }
   if (asRootData && ob) {
@@ -132,6 +137,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
 /**
  * Define a reactive property on an Object.
  */
+// 对象定义响应的方法
 export function defineReactive (
   obj: Object,
   key: string,
@@ -159,6 +165,8 @@ export function defineReactive (
     configurable: true,
     get: function reactiveGetter () {
       const value = getter ? getter.call(obj) : val
+      // Dep刚开始创建的时候是没有target的，后来是在编译使用的时候添加进来的。
+      // 观察者这时候还没有创建，因为我们的Dep.target是空的。是在使用的时候去收集观察者的。
       if (Dep.target) {
         dep.depend()
         if (childOb) {

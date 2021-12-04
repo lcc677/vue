@@ -10,8 +10,11 @@
 </head>
 
 <body>
-  <div id="app">
-    <span>{{name}}</span>
+  <div>
+    <div id="app">
+      <span>{{name}}</span>
+      <span>{{age}}</span>
+    </div>
   </div>
 </body>
 <script>
@@ -19,7 +22,8 @@
     el: '#app',
     data() {
       return {
-        name: 'lcc'
+        name: 'lcc',
+        age: 13
       }
     },
     methods: {
